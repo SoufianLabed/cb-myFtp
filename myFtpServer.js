@@ -12,7 +12,7 @@ const server = net.createServer((socket) => {
     const [directive, parameter] = data.toString().split(' ')
     
 
-    // utiliser pour mput et mget
+    // utilisés pour mput et mget
     const commande = data.toString().split(' ')
     
     switch(directive) {
@@ -105,7 +105,7 @@ const server = net.createServer((socket) => {
       case 'mget':
         
         
-
+        if(socket.connected == true){
         let i = 1; 
         let chemin = process.cwd();
         while (i<commande.length){
@@ -129,13 +129,17 @@ const server = net.createServer((socket) => {
           i++
         }
 
+      }else{
+        socket.write("CONNECTEZ-VOUS AVANT")
+      }
+
 
       break;
 
       case 'mput':
         
      
-
+        if(socket.connected == true){
         let compteur = 1; 
         let chemin3 = process.cwd()
         while (compteur<commande.length){
@@ -158,6 +162,10 @@ const server = net.createServer((socket) => {
 
           compteur++
         }
+
+      }else{
+        socket.write("CONNECTEZ-VOUS AVANT")
+      }
 
 
       break;
