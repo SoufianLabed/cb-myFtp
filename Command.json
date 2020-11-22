@@ -30,6 +30,20 @@
     {
         "commande": "STOR" ,
         "happened": "transfer a copy of the file FILE from the client to the server"
+    },
+
+    {
+        "commande": "mget" ,
+        "happened": "transfer multiple copy of the file FILE from  the server to the client"
+    },
+
+    {
+        "commande": "mput" ,
+        "happened": "transfer multiple copy of  files FILE from the client to the server"
+    },
+    {
+        "commande": "LPWD" ,
+        "happened": "display the name of the current directory of the client"
     }
         
 ]

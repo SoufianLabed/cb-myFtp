@@ -11,6 +11,9 @@ const server = net.createServer((socket) => {
 
     const [directive, parameter] = data.toString().split(' ')
     
+
+    // utiliser pour mput et mget
+    const commande = data.toString().split(' ')
     
     switch(directive) {
 
@@ -86,6 +89,7 @@ const server = net.createServer((socket) => {
             }
 
       break;
+
       
       case 'LPWD':
         if(socket.connected == true){
@@ -98,10 +102,71 @@ const server = net.createServer((socket) => {
       break;
 
 
+      case 'mget':
+        
+        
+
+        let i = 1; 
+        let chemin = process.cwd();
+        while (i<commande.length){
+
+          
+          // On vérifie que les fichiers sont bien présent dans les répertoires demandés et on copie du répertoire vers mon dossier files
+          // CHEMIN A CHANGER SI VOUS VOULEZ EXECUTER LE CODE 
+          if(fs.existsSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+commande[i]) && fs.existsSync(chemin+'\\'+commande[i])){
+            
+            // CHEMIN A CHANGER SI VOUS VOULEZ EXECUTER LE CODE 
+            fs.copyFileSync( 'D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+commande[i],chemin+'\\'+commande[i]);
+            //socket.write("004")
+
+          }else{
+            
+            const data2 = fs.readFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+commande[i]);
+            fs.writeFileSync(chemin+'\\'+commande[i], data2);
+            //socket.write("004")
+          }
+
+          i++
+        }
+
+
+      break;
+
+      case 'mput':
+        
+     
+
+        let compteur = 1; 
+        let chemin3 = process.cwd()
+        while (compteur<commande.length){
+
+          
+          // On vérifie que les fichiers sont bien présent dans les répertoires demandés et on copie du répertoire vers mon dossier files
+          // CHEMIN A CHANGER SI VOUS VOULEZ EXECUTER LE CODE 
+          if(fs.existsSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+commande[compteur]) && fs.existsSync(chemin3+'\\'+commande[compteur])){
+            
+            // CHEMIN A CHANGER SI VOUS VOULEZ EXECUTER LE CODE 
+            fs.copyFileSync(chemin3+'\\'+commande[compteur], 'D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+commande[compteur]);
+            //socket.write("004")
+
+          }else{
+            
+            const data2 = fs.readFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+commande[compteur]);
+            fs.writeFileSync(chemin3+'\\'+commande[compteur], data2);
+            //socket.write("004")
+          }
+
+          compteur++
+        }
+
+
+      break;
 
 
 
-        case 'RETR':
+
+
+        case 'STOR':
 
           if(socket.connected == true){
             let chemin = process.cwd()
@@ -111,13 +176,13 @@ const server = net.createServer((socket) => {
               
               // CHEMIN A CHANGER SI VOUS VOULEZ EXECUTER LE CODE 
               fs.copyFileSync(chemin+'\\'+parameter, 'D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter);
-              socket.write("004")
+              socket.write("005")
 
             }else{
               
               const data2 = fs.readFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter);
               fs.writeFileSync(chemin+'\\'+parameter, data2);
-              socket.write("004")
+              socket.write("005")
             }
           
           }else{
@@ -128,7 +193,7 @@ const server = net.createServer((socket) => {
         break;
 
 
-         case 'STOR':
+         case 'RETR':
           // On vérifie que les fichiers sont bien présent dans les répertoires demandés et on copie du dossier files vers le repertoire courant
           if(socket.connected == true){
           let chemin2 = process.cwd()
@@ -137,13 +202,14 @@ const server = net.createServer((socket) => {
           if(fs.existsSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter) && fs.existsSync(chemin2+'\\'+parameter)){
             // CHEMIN A CHANGER SI VOUS VOULEZ EXECUTER LE CODE 
             fs.copyFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter,chemin2+'\\'+parameter);
-            socket.write("005")
+            socket.write("004")
           }else{
          
             
             const data3 = fs.readFileSync(chemin2+'\\'+parameter);
             fs.writeFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter, data3);
-            
+            socket.write("004")
+
           }
    
           }else{
