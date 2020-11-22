@@ -32,6 +32,7 @@ client.on('data', (data) => {
   // Initialement j'ai essayé de respecter les bons codes mais j'ai pas réussis à trouver tout les bons conde ^^
 
   switch(data.toString()) {
+    
     case '331':
         console.log("Entrer le mot de passe \n");
 
@@ -71,6 +72,11 @@ client.on('data', (data) => {
 
     case '010':
       console.log("Liste des commandes et leurs signification");    
+    break; 
+
+    case '011':
+      console.log("Voici le chemin du répertoire de travail actuel local : ");    
+      console.log(process.cwd())
     break; 
 
     case '231':

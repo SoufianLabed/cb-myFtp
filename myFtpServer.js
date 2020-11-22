@@ -86,6 +86,16 @@ const server = net.createServer((socket) => {
             }
 
       break;
+      
+      case 'LPWD':
+        if(socket.connected == true){
+        // initialement LPWD et PWD renvoie le meme chemin, mais en changeant de repertoire avec la commande cwd on obtiendra des chemins différents 
+        socket.write('011');
+        }else{
+          socket.write("CONNECTEZ-VOUS AVANT")
+        }
+
+      break;
 
 
 
@@ -104,7 +114,10 @@ const server = net.createServer((socket) => {
               socket.write("004")
 
             }else{
-              socket.write('Veuillez vérifier la source du fichier demandé');
+              
+              const data2 = fs.readFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter);
+              fs.writeFileSync(chemin+'\\'+parameter, data2);
+              socket.write("004")
             }
           
           }else{
@@ -126,7 +139,11 @@ const server = net.createServer((socket) => {
             fs.copyFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter,chemin2+'\\'+parameter);
             socket.write("005")
           }else{
-            socket.write('Veuillez vérifier la source du fichier demandé');
+         
+            
+            const data3 = fs.readFileSync(chemin2+'\\'+parameter);
+            fs.writeFileSync('D:/Users/sosol/Desktop/Codeflix/onecode/Ftpserver/files/'+parameter, data3);
+            
           }
    
           }else{
